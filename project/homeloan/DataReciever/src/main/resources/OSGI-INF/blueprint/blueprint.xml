@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+      <property name="brokerURL" value="tcp://localhost:61616"/>
+      <property name="userName" value="admin"/>
+      <property name="password" value="admin"/>
+  </bean>
+
+  <camelContext xmlns="http://camel.apache.org/schema/blueprint">
+  <!--<jmxAgent registryPort="1212" />-->
+  <route>
+    <from uri="file:datafile?delete=true"/>
+    <choice>
+      <when>
+        <xpath>/CustInfo[@infotype="LoanCustomer"]</xpath>
+        <to uri="activemq:queue:customer"/>
+      </when>
+      <otherwise>
+        <to uri="activemq:queue:house"/>
+      </otherwise>
+    </choice>
+  </route>
+</camelContext>
+
+</blueprint>

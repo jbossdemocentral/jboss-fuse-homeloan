@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+      <property name="brokerURL" value="tcp://localhost:61616"/>
+      <property name="userName" value="admin"/>
+      <property name="password" value="admin"/>
+  </bean>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	  <property name="driverClassName" value="org.h2.Driver"/>
+	  <property name="url" value="jdbc:h2:file:~/h2/homeloan;AUTO_SERVER=TRUE"/>
+	  <property name="username" value="sa"/>
+	  <property name="password" value=""/>
+	</bean>
+	 
+	<!-- configure the Camel SQL component to use the JDBC data source -->
+	<bean id="sql" class="org.apache.camel.component.sql.SqlComponent">
+	  <property name="dataSource" ref="dataSource"/>
+	</bean>  
+  
+  <bean id="Appraiser" class="org.blogdemo.homeloan.processor.AppraisalProcessor" />
+
+  <camelContext xmlns="http://camel.apache.org/schema/blueprint">
+  <propertyPlaceholder location="classpath:sql.properties,googleapp.properties" id="properties"/>
+  <endpoint uri="dozer:fileToHouse?sourceModel=homeloanhouse.HouseInfo&amp;targetModel=org.blogdemo.homeloan.model.HouseInfo&amp;unmarshalId=homeloanhouse&amp;mappingFile=fileToHouse.xml" id="fileToHouse"/>
+  <dataFormats>
+    <jaxb contextPath="homeloanhouse" id="homeloanhouse"/>
+  </dataFormats>
+  <route>
+    <from uri="activemq:queue:location"/>
+    <to ref="fileToHouse"/>
+    <setBody>
+      <simple>${body.address}</simple>
+    </setBody>
+    <bean method="processAddress" beanType="org.blogdemo.homeloan.processor.HouseInfoProcessor"/>
+    <log message="https4://maps.googleapis.com/maps/api/geocode/json?address=${body}&amp;amp;amp;sensor=false&amp;amp;amp;key={{googlekey}}"/>
+    <recipientList>
+      <simple>https4://maps.googleapis.com/maps/api/geocode/json?address=${body}&amp;amp;sensor=false&amp;amp;key={{googlekey}}</simple>
+    </recipientList>
+    <unmarshal>
+      <json library="Jackson"/>
+    </unmarshal>
+    <setBody>
+      <simple>${body.[results].[0].[geometry].[location].[lat]},${body.[results].[0].[geometry].[location].[lng]}</simple>
+    </setBody>
+  </route>
+  <route>
+    <from uri="activemq:queue:schoolNum"/>
+    <setHeader headerName="host">
+      <constant>maps.googleapis.com</constant>
+    </setHeader>
+    <recipientList delimiter="|">
+      <simple>https4://maps.googleapis.com/maps/api/place/radarsearch/json?location=${body}&amp;amp;radius=500&amp;amp;types=school&amp;amp;sensor=false&amp;amp;key={{googlekey}}</simple>
+    </recipientList>
+    <unmarshal>
+      <json library="Jackson"/>
+    </unmarshal>
+    <setBody>
+      <simple>${body.size}</simple>
+    </setBody>
+  </route>
+  <route>
+    <from uri="activemq:queue:house"/>
+    <to pattern="InOut" uri="activemq:queue:location" id="getlocation"/>
+    <log message="Location ${body}"/>
+    <to pattern="InOut" uri="activemq:queue:schoolNum" id="getSchoolNum"/>
+    <bean beanType="org.blogdemo.homeloan.processor.MessageProcessor"/>
+    <to ref="fileToHouse"/>
+    <log message="Number of schools around ${headers.SchoolNum}"/>
+    <bean ref="Appraiser" method="quote"/>
+    <bean ref="Appraiser" method="updateQuoteWithSchools(${body}, ${headers.SchoolNum})"/>
+    <to uri="sql:{{sql.deleteHouseInfo}}"/>
+    <to uri="sql:{{sql.insertHouseInfo}}"/>
+  </route>
+</camelContext>
+
+</blueprint>

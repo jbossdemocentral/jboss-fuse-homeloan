@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+  	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	  <property name="driverClassName" value="org.h2.Driver"/>
+	  <property name="url" value="jdbc:h2:file:~/h2/homeloan;AUTO_SERVER=TRUE"/>
+	  <property name="username" value="sa"/>
+	  <property name="password" value=""/>
+	</bean>
+	
+	<!-- configure the Camel SQL component to use the JDBC data source -->
+	<bean id="sql" class="org.apache.camel.component.sql.SqlComponent">
+	  <property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<reference id="httpService" interface="org.osgi.service.http.HttpService"/>
+     
+     <bean id="camelServlet" class="org.apache.camel.component.servlet.CamelHttpTransportServlet"/>
+     <bean id="registerCamel" class="org.apache.camel.component.servlet.osgi.OsgiServletRegisterer"
+        init-method="register"
+        destroy-method="unregister">
+        <property name="alias" value="/homeloan"/>
+    	<property name="httpService" ref="httpService"/>
+    	<property name="servlet" ref="camelServlet"/>
+    	<property name="servletName" value="CamelServlet"/>
+  	</bean>	
+  	
+  
+  <camelContext xmlns="http://camel.apache.org/schema/blueprint">
+  <propertyPlaceholder location="classpath:sql.properties" id="properties"/>
+  <!--<jmxAgent registryPort="1215" />-->
+  <restConfiguration component="servlet" contextPath="/homeloan" host="localhost" port="9999" bindingMode="json" >
+  	<dataFormatProperty key="prettyPrint" value="true"/>
+  </restConfiguration>
+  <rest path="/summaryservice">
+    <get uri="/nationalID/{clientId}">
+      <to uri="direct:customerSummary"/>
+    </get>
+  </rest>
+  <route>
+    <from uri="direct:customerSummary"/>
+    <log message="${headers.clientId}"/>
+    <to uri="sql:{{sql.selectCustHouseInfo}}"/>
+  </route>
+</camelContext>
+
+</blueprint>

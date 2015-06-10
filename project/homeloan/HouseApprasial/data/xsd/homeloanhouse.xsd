@@ -1,0 +1,15 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="HouseInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:string" name="nationalID"/>
+        <xs:element type="xs:string" name="address"/>
+        <xs:element type="xs:byte" name="bedroom"/>
+        <xs:element type="xs:byte" name="bathroom"/>
+        <xs:element type="xs:short" name="landSize"/>
+        <xs:element type="xs:byte" name="appraisedValue"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="infotype"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

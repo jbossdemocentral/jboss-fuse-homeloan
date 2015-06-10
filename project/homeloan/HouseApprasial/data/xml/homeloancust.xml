@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CustInfo infotype="LoanCustomer">
+	<nationalID>A234567</nationalID>
+  <firstName>Christina</firstName>
+  <lastName>Lin</lastName>
+  <age>29</age>
+  <occupation>Sofrware Developer</occupation>
+</CustInfo>
