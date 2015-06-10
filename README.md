@@ -14,7 +14,7 @@ JBoss Fuse 6.2
 
 Install on your machine
 -----------------------
-1. [Download and unzip.](https://github.com/jbossdemocentral/homeloan/archive/master.zip)
+1. [Download and unzip.](https://github.com/jbossdemocentral/jboss-fuse-homeloan.git'])
 
 2. Add products to installs directory.
 

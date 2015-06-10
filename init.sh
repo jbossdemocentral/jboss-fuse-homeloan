@@ -2,7 +2,7 @@
 DEMO="JBoss Fuse Getting Started Home Loan Demo"
 VERSION=6.2.0
 AUTHORS="Christina Lin"
-PROJECT="git@github.com/weimeilin79/homeloan.git"
+PROJECT="https://github.com/jbossdemocentral/jboss-fuse-homeloan.git"
 FUSE=jboss-fuse-6.2.0.redhat-124
 FUSE_BIN=jboss-fuse-full-6.2.0.redhat-124.zip
 DEMO_HOME=./target
