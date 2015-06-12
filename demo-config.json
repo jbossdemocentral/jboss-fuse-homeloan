@@ -8,6 +8,7 @@
   "targetProduct":"JBoss Fuse",
   "productVersion":"JBoss Fuse 6.2",
   "technologies": ["Camel","Fuse", "Karaf","Fabric8"],
+  "categories":["fuse"],
   "links": [ 
     { 
       "name":"Video",
