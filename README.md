@@ -14,7 +14,7 @@ JBoss Fuse 6.2
 
 Install on your machine
 -----------------------
-1. [Download and unzip.](https://github.com/jbossdemocentral/jboss-fuse-homeloan.git'])
+1. Download and unzip.
 
 2. Add products to installs directory.
 
@@ -22,7 +22,7 @@ Install on your machine
 
 4. Login to Fuse management console at:  http://localhost:8181    (u:admin/p:admin).
 
-5. Under Runtime tab, you will see 4 containers, select and start them all.  
+5. Under Runtime tab, you will see 6 containers, select and start them all.  
 
 6. Enjoy the demo!
 
