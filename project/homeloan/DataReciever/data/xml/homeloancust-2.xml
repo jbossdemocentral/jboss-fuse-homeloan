@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CustInfo infotype="LoanCustomer">
+	<nationalID>B56789</nationalID>
+  <firstName>John</firstName>
+  <lastName>Doe</lastName>
+  <age>40</age>
+  <occupation>Manager</occupation>
+</CustInfo>
