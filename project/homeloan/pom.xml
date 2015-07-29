@@ -32,6 +32,19 @@
   		</dependency>
   	</dependencies>
   </dependencyManagement>
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>release.fusesource.org</id>
+      <name>FuseSource Release Repository</name>
+      <url>http://repo.fusesource.com/nexus/content/repositories/releases</url>
+    </pluginRepository>
+</pluginRepositories>
   <build>
     <defaultGoal>install</defaultGoal>
     <plugins>
