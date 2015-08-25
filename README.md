@@ -24,7 +24,7 @@ Install on your machine
 
 5. Login to Fuse management console at:  http://localhost:8181    (u:admin/p:admin).
 
-6. Under Runtime tab, you will see 5 containers, select and start them all.  
+6. Under Containers tab, you will see 5 containers, select and start them all.  
 
 7. Enjoy the demo!
 
