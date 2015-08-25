@@ -32,8 +32,9 @@ Install on your machine
 Shutdown the demo
 -----------------------
 1. To stop the JBoss FUSE Server and all the containers, run
-  1. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop summarycon`
-  2. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop custcon`
-  3. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop datarecievercon`
-  4. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop housecon`
-  5. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop root`
+  1. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop homeloan`
+  2. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop summarycon`
+  3. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop custcon`
+  4. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop datarecievercon`
+  5. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop housecon`
+  6. `./target/jboss-fuse-6.2.0.redhat-133/bin/admin stop root`
