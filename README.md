@@ -15,17 +15,11 @@ JBoss Fuse 6.2
 Install on your machine
 -----------------------
 1. Download this project and unzip OR git clone this onto your desktop.
-
 2. Add products to installs directory.
-
 3. Run 'init.sh'
-
 4. Although our shell script has already started the FUSE server, if you need to manually start the server in the future, just run `./target/jboss-fuse-6.2.0.redhat-133/bin/start`
-
 5. Login to Fuse management console at:  http://localhost:8181    (u:admin/p:admin).
-
 6. Under Containers tab, you will see 5 containers, select and start them all.  
-
 7. Enjoy the demo!
 
 Demo Scenario
