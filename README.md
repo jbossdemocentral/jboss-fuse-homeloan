@@ -28,6 +28,23 @@ Install on your machine
 
 7. Enjoy the demo!
 
+Demo Scenario
+-----------------------
+1. The demo should have been already started by executing 'init.sh'
+2. Login to Fuse management console at http://localhost:8181 (u:admin/p:admin)
+3. Start home loan application, place the /support/data file to target/jboss-fuse-6.2.0.redhat-133/instances/datarecievercon/datafile
+  1. homeloancust.xml
+  2. homeloancust-2.xml
+  3. homeloanhouse.xml
+  4. homeloanhouse-2.xml
+4. Take a look at through the Fuse Console
+  1. Camel routes in all containers
+  2. Message Queue stats
+  3. Web Registry
+5. See the result of House Appraisal by accessing following URL
+  1. http://localhost:8185/homeloan/summaryservice/nationalID/A234567
+  2. http://localhost:8185/homeloan/summaryservice/nationalID/B56789
+6. once you are done, to stop and clean everything run './clean.sh'
 
 Shutdown the demo
 -----------------------
